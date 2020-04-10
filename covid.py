@@ -2,7 +2,7 @@ import time, datetime
 import telepot
 import requests
 import json
-import vid
+
 from bs4 import BeautifulSoup as bs
 
 
