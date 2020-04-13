@@ -1,12 +1,18 @@
 import time, datetime
+
+import telegram
 import telepot
 import requests
 import json
+import telegram
+
 
 from bs4 import BeautifulSoup as bs
 
-k=open("swapnil.txt",'r',encoding="utf-8")
+k=open("swapnil.py", 'r', encoding="utf-8")
 care=k.read()
+
+Dist = set()
 
 def GetNews():
     response = requests.get("https://www.indiatoday.in/coronavirus")
@@ -37,15 +43,16 @@ def GetCity(city):
                 # print(k,l)
                 for m, n in l.items():
                     # print(m,n)
+                    #Dist.add(m)
                     for o, p in n.items():
                         if o == "confirmed":
-                            #z=print(m,p)
+                            z=(m,p)
                             # print(m.casefold())
-                            if (m.casefold() == city.casefold()):
+                            #if (m.casefold() == city.casefold()):
 
                                 #   print(m,p)
-                                return p
-    return -1
+                               # return p
+    return z
 
 
 
@@ -77,13 +84,15 @@ def action(msg):
         if (Number > -1):
             telegram_bot.sendMessage(chat_id, str("Active patient in ") + str(command) + str(" = ") + str(Number))
         else:
-            telegram_bot.sendMessage(chat_id, str("Please Enter Correct Spelling or use /help"))
+            telegram_bot.sendMessage(chat_id, str("Covid-19 Active patients only presents in following districts : ") + "\n" + str(Dist))
 
 
-telegram_bot = telepot.Bot('')
+telegram_bot = telepot.Bot('1203978562:AAENrI7GOsNap7Z_I1ylbh-HFKbd_5mc96I')
 print(telegram_bot.getMe())
 MessageLoop(telegram_bot, action).run_as_thread()
 print('Up and Running....')
+
+
 while 1:
     time.sleep(10)
 
